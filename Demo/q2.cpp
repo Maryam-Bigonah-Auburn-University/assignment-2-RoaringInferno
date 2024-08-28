@@ -1,48 +1,42 @@
-#include <iostream>;
+#include <iostream>
+#include <string>
 
-using namespace std;
-
-void computeCoin(int coinValue, int& number, int& amountLeft);
-void printOutput(int coinValue, int number);
-
-int main() {
-	char compute_again = 'N';
-	int number = 0,
-	    amountLeft = 0;
-
-	do {
-		cout << "Enter the amount of change:";
-		cin  >> amountLeft;
-		while (amountLeft < 1 || amountLeft > 99) {
-			cout << "Enter a value between 1 and 99:";
-			cin  >> amountLeft;
-		}
-
-		cout << "Change can be given as:" << endl;
-		computeCoin(25,number,amountLeft);
-		printOutput(25,number);
-		computeCoin(10,number,amountLeft);
-		printOutput(10,number);
-		computeCoin(1,number,amountLeft);
-		printOutput(1,number);
-
-		cout << "Do you want to make change again?" << endl
-		     << "Enter Y to convert again and any other key to exit:";
-		cin  >> compute_again;
-
-	} while(compute_again == 'Y' || compute_again == 'y');
-
-
-	return 0;
+void computeCoin(int coinValue, int &number, int &amountLeft) {
+    unsigned char coincount = amountLeft / coinValue; // Calculate the number of coins. Rounded down
+    number += coincount; // Add the number of coins to the total number of coins
+    amountLeft -= coincount * coinValue; // Subtract the value of the coins from the total amount
 }
 
-void computeCoin(int coinValue, int& number, int& amountLeft) {
-	
-}
+struct CashRegister {
+    int quarters = 0;
+    int dimes = 0;
+    int nickels = 0;
+    int pennies = 0;
+};
 
-void printOutput(int coinValue, int number) {
-	cout << number;
-	switch(coinValue) {
-		
-	}
+int main()
+{
+    std::string continue_str;
+    do {
+        int amount;
+        CashRegister reg;
+
+        std::cout << "Enter the amount of money: ";
+        std::cin >> amount;
+
+        computeCoin(25, reg.quarters, amount);
+        computeCoin(10, reg.dimes, amount);
+        //computeCoin(5, reg.nickels, amount); // Not computing nickels
+        computeCoin(1, reg.pennies, amount);
+
+        std::cout << "Quarters: " << reg.quarters << std::endl;
+        std::cout << "Dimes: " << reg.dimes << std::endl;
+        //std::cout << "Nickels: " << reg.nickels << std::endl; // Not computing nickels
+        std::cout << "Pennies: " << reg.pennies << std::endl;
+
+        std::cout << "Type anything to exit, or Y to run again...";
+        std::cin >> continue_str;
+    } while (continue_str == "Y" || continue_str == "y");
+
+    return 0;
 }
